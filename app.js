@@ -196,8 +196,8 @@ else if (store.quizStarted === true){
     html = generateQuestionNumberAndScoreHtml();
     $('main').html(html);
     }
-else (store.questionNumber === store.questions.length){
-      $('main').html(generateResultsScreen());}
+else if (store.questionNumber === store.questions.length){
+      $('main').html(generateResultsScreen());};
   
 }
 
@@ -217,17 +217,17 @@ function startClick() {
 
 function nextQuestionClick() {
   $('body').on('click', '#next-question-btn', function (event) {
-    store.index+=;
+    store.index++;
     renderQuiz();
   });
 }
 
 
 function formSubmission() {
-$('body').on('click', '#next-question-btn', function (event)) {
+$('body').on('click', '#next-question-btn', function (event) {
   event.preventDefault();
  
-  }
+  });
 }
 
 function restartQuiz() {
