@@ -6,3 +6,160 @@
   * https://github.com/andreacardybailey/responsive_example/blob/master/styles/responsive-base.css 
   *
 */
+@media only screen and (max-width: 667px) {
+  body {
+    background: url('Photos/autumn-640.jpg');
+    }
+
+    h1 {
+      font-size: 16px;
+    }
+
+}
+
+
+h1 {
+
+    font-family: Tahoma, 'Geneva', sans-serif;
+    font-size: 25px;
+    letter-spacing: -0.4px;
+    word-spacing: 1.8px;
+    color: #0A0908;
+    font-variant: small-caps;
+    text-align: center;
+    
+}
+
+body {
+  background: url('Photos/autumn-1920.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-color:#0A0908;
+  background-repeat: no-repeat;
+  background-position: center center;
+
+  }
+
+  header {
+    
+    border: 10px solid #0A0908;
+      background: rgba(242, 244, 243, 0.7);
+      margin-left: 10%;
+      margin-right: 10%;
+      margin-top: 2%;
+      
+  }
+
+ 
+  p {
+    font-family: Tahoma, 'Geneva', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.2px;
+    word-spacing: 0.2px;
+    color: #0A0908;
+ 
+    }
+   
+    
+    button {
+      box-shadow:inset 0px 1px 0px 0px #fff6af;
+      background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+      background-color:#ffec64;
+      border-radius:6px;
+      border:1px solid #ffaa22;
+      display:inline-block;
+      cursor:pointer;
+      color:#333333;
+      font-family:Arial;
+      font-size:15px;
+      font-weight:bold;
+      padding:6px 24px;
+      text-decoration:none;
+      text-shadow:0px 1px 0px #ffee66;
+      margin-top:20%
+
+    }
+ 
+    
+    .home-screen, fieldset {
+      padding: 20px;
+      margin-left: 10%;
+      margin-right: 10%;
+      margin-top: 5%;
+      background: rgba(242, 244, 243, 0.7);
+      border: 10px solid #0A0908;
+      font-family: Tahoma, 'Geneva', sans-serif;
+    }
+    
+    legend {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .question-and-score {
+      font-family: Tahoma, 'Geneva', sans-serif;
+      font-size: 20px;
+      color: #0A0908;
+      text-align: center;
+      background: rgba(255, 171, 35, 0.7);
+      list-style: none;
+    }
+
+    .question-form .question {
+      margin-bottom: 20px;
+      padding: 0 2%;
+      font-size: 20px;
+      font-weight: 600px;
+    }
+    
+    .options ul {
+      font-family: Tahoma, 'Geneva', sans-serif;
+      font-size: 20px;
+      color: #0A0908;
+      list-style: none;
+      margin:0;
+      text-align:left;
+    }
+    
+    label {
+      font-size:20px;
+      font-family: Tahoma, 'Geneva', sans-serif;
+    }
+    
+    .options span {
+      display:block;
+      border-radius:5px;
+    }
+    
+    .right-answer {
+      font-family: Tahoma, 'Geneva', sans-serif;
+      font-size: 20px;
+      font-variant: small-caps;
+      text-decoration: underline;
+      font-weight: 700;
+      display: inline-grid;
+      color: #0a5404;
+
+    }
+    
+    .wrong-answer {
+      font-family: Tahoma, 'Geneva', sans-serif;
+      font-size: 20px;
+      font-variant: small-caps;
+      font-weight: 700;
+      display: inline-grid;
+      color: red;
+
+    }
+    
+    .question-form button {
+      float:right;
+    }
+    
+    button:disabled {
+      opacity:0.5;
+    }
+    
+    #next-question-btn {
+      display: none;
+    }
