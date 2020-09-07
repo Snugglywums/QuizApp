@@ -60,7 +60,7 @@ const store = {
   quizStarted: false,
   questionNumber: 0,
   score: 0,
-  index: 0,
+  index: 1,
 };
 
 /**
@@ -81,7 +81,7 @@ const store = {
 /********** TEMPLATE GENERATION FUNCTIONS **********/
 
 //function for the welcome screen
-function homeScreen() {
+function homeScreenHTML() {
   return `
     <div class="home-screen">
       <h1>A short quiz over the requirements for taking a drivers safety course to dismiss a traffic citation.</h1>
@@ -90,41 +90,33 @@ function homeScreen() {
   `;
 }
 
-//function for the questions to begin
-function startQuestion() {
-  let index = store.questions[store.index];
+
+//Function to display the question and answer choices in a form
+function questionsAndAnswersHTML(){
+  
+  let index = store.questions[store.index]; // Variable so that the question will update
+  //answersArray = store.questions[store.currentQuestion].answers //Variable for the answer array
+
   return `
-    <form id="question-form" class="question-form">
-      <fieldset>
-        <div class="question">
-          <legend> ${index.question}</legend>
+  <form id="question-form">
+    <fieldset>
+      <div class="question">
+       <legend> ${index.question} </legend>
+      </div>
+      <div class="options">
+        <div class="answers">
+        ${answerChoices()}
+          <div id="option-container">
+       
         </div>
-        <div class="options">
-          <div class="answers">
-            ${answerChoices()}
-          </div>
-        </div>
-        <button type="submit" id="submit-answer-btn" tabindex="5">Submit</button>
-        <button type="button" id="next-question-btn" tabindex="6"> Next Question</button>
-      </fieldset>
-    </form >
-  `;
+        <button type="submit" id="submit-answer-btn"> Submit</button>
+        <button type="button" id="next-question-btn"> Next Question</button>
+    </fieldset>
+  </form>
+        `;
+   
 }
 
-function questionAndScore() {
-  return `
-    <ul class="question-and-score">
-      <li id="question-number">
-        Question Number: ${store.index + 1}/${store.questions.length}
-      </li>
-      <li id="score">
-        Score: ${store.score}/${store.questions.length}
-      </li>
-    </ul>
-  `;
-}
-
-//Function to display the answer choices
 function answerChoices() {
   const answersArray = store.questions[store.index].answers
   let answers = '';
@@ -142,26 +134,9 @@ function answerChoices() {
   return answers;
 }
 
-//Function to provide the Answer Results
-function provideAnswerResults(answerStatus) {
-  let correctAnswer = store.questions[store.index].correctAnswer;
-  let responseHTML = '';
-  if (answerStatus === 'correct') {
-    responseHTML = `
-    <div class="right-answer">Correct!</div>
-    `;
-  }
-  else if (answerStatus === 'incorrect') {
-    responseHTML = `
-      <div class="wrong-answer">Incorrect! The correct answer is ${correctAnswer}.</div>
-    `;
-  }
-  return responseHTML;
-}
-
 
 //Function to display the Quiz Results at end
-function quizResults() {
+function quizResultsHTML() {
   return `
     <div class="results">
       <form id="js-restart-quiz">
@@ -171,7 +146,7 @@ function quizResults() {
               <legend>Your Score is: ${store.score}/${store.questions.length}</legend>
             </div>
           </div>
-   <button type="button" id="restart"> Try Again </button>
+   <button type="button" id="restart-btn"> Try Again </button>
         </fieldset>
     </form>
     </div>
@@ -179,77 +154,134 @@ function quizResults() {
 }
 
 
-
 /********** RENDER FUNCTION **********/
 
 function renderQuiz() {
 // render all function
-let html =' ';
+if(store.quizStarted === false){
+  $('main').html(homeScreenHTML());
 
-if (store.quizStarted === false) { 
-  $('main').html(homeScreen());
-  return;
+  //return;
   }
+  else if (store.quizStarted === true && store.index >= store.questions.length) {
+    $('main').html(quizResultsHTML());}
 
-else if (store.quizStarted === true){
-    html += generateQuestionHtml();
-    html = generateQuestionNumberAndScoreHtml();
-    $('main').html(html);
-    }
-else if (store.questionNumber === store.questions.length){
-      $('main').html(generateResultsScreen());};
-  
 }
+
+
 
  
 /********** EVENT HANDLER FUNCTIONS **********/
 
+//function for the questions to begin
 
 function startClick() {
-  $('main').on('click', '#start', function (event) {
-    $('main').html(startQuestion());
-    store.quizStarted === true;
-   renderQuiz();
-    
+  $('.home-screen').on('click', start, function(event) {
+    event.preventDefault();
+    store.quizStarted = true;
+  //  console.log("start");
+    let html ="";
+    html = questionsAndAnswersHTML();
+    $('main').html(html);
   });
 }
 
 
-function nextQuestionClick() {
-  $('body').on('click', '#next-question-btn', function (event) {
-    store.index++;
-    renderQuiz();
+
+
+function answerResults(){
+
+  let correctAnswer = store.questions[store.index].correctAnswer;
+  const answersArray = store.questions[store.index].answers
+
+
+ $('main').on('click', '.answers', function (event) {
+    event.preventDefault();
+
+    let answer = $('input[name=options]:checked',).val();   
+
+  $('input[type=radio]').each(() => {
+    $('input[type=radio]').attr('disabled', true);
+    $('#next-question-btn').show();
   });
-}
+
+console.log(answer);
+console.log(correctAnswer);
+console.log(answersArray);
+
+//on the submit button click we want to check the answer
+//$('main').on('click', '#submit-answer-btn', function (event){
+ // event.preventDefault();
+ // validateCorrectAnswer();
+
+ //console.log(answer);
 
 
-function formSubmission() {
-$('body').on('click', '#next-question-btn', function (event) {
+     if (answer === correctAnswer) {
+      store.score++;
+     console.log(store.score);
+      return `
+          // <div class="right-answer">That is correct!</div>
+          // `;
+       } 
+
+    else {
+       return `
+         // <div class="wrong-answer">That is incorrect!</div>
+          // `;
+         }
+        
+    });
+
+  }
+ // });
+
+
+
+
+$(document).on('click', '#next-question-btn', function(event) {
   event.preventDefault();
- 
-  });
+    nextQuestion();
+
+});
+
+function nextQuestion(){
+  let html='';
+  store.index++;
+ // console.log(store.index);
+
+  if (store.index < store.questions.length){
+    html +=  questionsAndAnswersHTML();
+    $('main').html(html);
+  } 
+  renderQuiz();
 }
+
+
 
 function restartQuiz() {
  store.quizStarted === false;
  store.index = 0;
  store.score = 0;
+ renderQuiz();
 
 }
 
 function restartClick() {
-  $('body').on('click', '#restart', () =>{
+  $(document).on('click', '#restart-btn', function(event){
+    console.log("restart click")
+    event.preventDefault();
     restartQuiz();
-    renderQuiz();
-  });
+   
+ });
 }
 
 function handleQuizApp() {
-  renderQuiz();
-  startClick();
-  nextQuestionClick();
-  formSubmission();
-  restartClick();
+    renderQuiz();
+    startClick();
+    answerResults();
+    restartClick();
+    
 }
 
 $(handleQuizApp);
