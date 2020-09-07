@@ -11,13 +11,14 @@
     background: url('Photos/autumn-640.jpg');
     }
 
-    h1 {
+  h1 {
       font-size: 16px;
     }
-    h1 {
+  h2 {
       font-size: 14px;
     }
-
+  button {
+     padding: 3px 10px;
 }
 
 
