@@ -26,7 +26,7 @@ const store = {
     },
     // question 3
     {
-      question: 'One of the requirements for the drivers safety course is to have a valid Texas drivers license or be active military (including spouse or immediate family',
+      question: 'One of the requirements for the drivers safety course is to have a valid Texas drivers license or be active military (including spouse or immediate family)',
       answers: [
         'True',
         'False'
