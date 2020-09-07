@@ -201,6 +201,7 @@ function answerResults(){
 
   $('input[type=radio]').each(() => {
     $('input[type=radio]').attr('disabled', true);
+    $('#submit-answer-btn').hide();
     $('#next-question-btn').show();
   });
 
