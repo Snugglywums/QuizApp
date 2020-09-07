@@ -60,7 +60,7 @@ const store = {
   quizStarted: false,
   questionNumber: 0,
   score: 0,
-  index: 1,
+  index: 0,
 };
 
 /**
@@ -80,7 +80,7 @@ const store = {
 
 /********** TEMPLATE GENERATION FUNCTIONS **********/
 
-//function for the welcome screen
+//function for the welcome screen html
 function homeScreenHTML() {
   return `
     <div class="home-screen">
@@ -91,12 +91,10 @@ function homeScreenHTML() {
 }
 
 
-//Function to display the question and answer choices in a form
+//Function to display the question and answer choices in a form html
 function questionsAndAnswersHTML(){
   
-  let index = store.questions[store.index]; // Variable so that the question will update
-  //answersArray = store.questions[store.currentQuestion].answers //Variable for the answer array
-
+  let index = store.questions[store.index]; 
   return `
   <form id="question-form">
     <fieldset>
@@ -107,12 +105,19 @@ function questionsAndAnswersHTML(){
         <div class="answers">
         ${answerChoices()}
           <div id="option-container">
-       
-        </div>
+        </div> 
+      <div id="answer-results">
+      <h2></h2>
+        <p> Question Number: ${store.index + 1} out of ${store.questions.length} </p>
+        <p> Youre score is: ${store.score}</p>
+      </div>
         <button type="submit" id="submit-answer-btn"> Submit</button>
         <button type="button" id="next-question-btn"> Next Question</button>
     </fieldset>
   </form>
+
+  
+
         `;
    
 }
@@ -161,9 +166,8 @@ function renderQuiz() {
 if(store.quizStarted === false){
   $('main').html(homeScreenHTML());
 
-  //return;
   }
-  else if (store.quizStarted === true && store.index >= store.questions.length) {
+  else if (store.quizStarted === true && store.index === store.questions.length) {
     $('main').html(quizResultsHTML());}
 
 }
@@ -173,13 +177,11 @@ if(store.quizStarted === false){
  
 /********** EVENT HANDLER FUNCTIONS **********/
 
-//function for the questions to begin
-
+//function for the questions to begin on start click
 function startClick() {
   $('.home-screen').on('click', start, function(event) {
     event.preventDefault();
     store.quizStarted = true;
-  //  console.log("start");
     let html ="";
     html = questionsAndAnswersHTML();
     $('main').html(html);
@@ -188,16 +190,13 @@ function startClick() {
 
 
 
-
+//function to check answers once submitted
 function answerResults(){
 
-  let correctAnswer = store.questions[store.index].correctAnswer;
-  const answersArray = store.questions[store.index].answers
-
-
- $('main').on('click', '.answers', function (event) {
+  $('body').on('submit', '#question-form', function (event){
     event.preventDefault();
-
+  
+    let correctAnswer = store.questions[store.index].correctAnswer;
     let answer = $('input[name=options]:checked',).val();   
 
   $('input[type=radio]').each(() => {
@@ -205,51 +204,32 @@ function answerResults(){
     $('#next-question-btn').show();
   });
 
-console.log(answer);
-console.log(correctAnswer);
-console.log(answersArray);
-
-//on the submit button click we want to check the answer
-//$('main').on('click', '#submit-answer-btn', function (event){
- // event.preventDefault();
- // validateCorrectAnswer();
-
- //console.log(answer);
-
+  var answerEl = document.querySelector('h2');
 
      if (answer === correctAnswer) {
       store.score++;
-     console.log(store.score);
-      return `
-          // <div class="right-answer">That is correct!</div>
-          // `;
+     answerEl.textContent = "Thats Correct!";
        } 
 
     else {
-       return `
-         // <div class="wrong-answer">That is incorrect!</div>
-          // `;
-         }
-        
+      answerEl.innerHTML = "Incorrect! The correct answer is: " + correctAnswer;
+         } 
     });
 
   }
- // });
 
 
-
-
+//Event handler to listen for the next button
 $(document).on('click', '#next-question-btn', function(event) {
-  event.preventDefault();
-    nextQuestion();
-
+ event.preventDefault();
+  nextQuestion();
 });
 
+//function to update the question html
 function nextQuestion(){
+ 
   let html='';
   store.index++;
- // console.log(store.index);
-
   if (store.index < store.questions.length){
     html +=  questionsAndAnswersHTML();
     $('main').html(html);
@@ -258,20 +238,20 @@ function nextQuestion(){
 }
 
 
-
+//function to restart the quiz
 function restartQuiz() {
- store.quizStarted === false;
+ store.quizStarted = false;
  store.index = 0;
  store.score = 0;
- renderQuiz();
 
 }
 
+//function for restart click with event handler for restart button
 function restartClick() {
-  $(document).on('click', '#restart-btn', function(event){
-    console.log("restart click")
-    event.preventDefault();
+  $(document).on('click', '#restart-btn', function(){
+  
     restartQuiz();
+    renderQuiz();
    
  });
 }
