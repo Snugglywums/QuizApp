@@ -115,20 +115,19 @@ function questionsAndAnswersHTML(){
         <button type="button" id="next-question-btn"> Next Question</button>
     </fieldset>
   </form>
-
-  
-
-        `;
-   
+ `;   
 }
 
+//function to populate the answer choices in the above html
 function answerChoices() {
   const answersArray = store.questions[store.index].answers
   let answers = '';
   let i = 0;
 
   answersArray.forEach(answer => {
-    answers+= `
+    answers+= 
+    
+    `
       <div id="option-container-${i}">
         <input type="radio" name="options" id="option${i + 1}" value= "${answer}" tabindex ="${i + 1}" required> 
         <label for="option${i + 1}"> ${answer}</label>
@@ -138,7 +137,6 @@ function answerChoices() {
   });
   return answers;
 }
-
 
 //Function to display the Quiz Results at end
 function quizResultsHTML() {
@@ -170,8 +168,8 @@ if(store.quizStarted === false){
   else if (store.quizStarted === true && store.index === store.questions.length) {
     $('main').html(quizResultsHTML());}
 
-}
 
+}
 
 
  
@@ -179,7 +177,7 @@ if(store.quizStarted === false){
 
 //function for the questions to begin on start click
 function startClick() {
-  $('.home-screen').on('click', start, function(event) {
+  $('.home-screen').on('click', '#start', function(event) {
     event.preventDefault();
     store.quizStarted = true;
     let html ="";
@@ -187,7 +185,6 @@ function startClick() {
     $('main').html(html);
   });
 }
-
 
 
 //function to check answers once submitted
@@ -221,7 +218,7 @@ function answerResults(){
 
 
 //Event handler to listen for the next button
-$(document).on('click', '#next-question-btn', function(event) {
+$('body').on('click', '#next-question-btn', function(event) {
  event.preventDefault();
   nextQuestion();
 });
@@ -249,10 +246,10 @@ function restartQuiz() {
 
 //function for restart click with event handler for restart button
 function restartClick() {
-  $(document).on('click', '#restart-btn', function(){
-  
+  $('body').on('click', '#restart-btn', function(){
     restartQuiz();
     renderQuiz();
+    location.reload();
    
  });
 }
@@ -262,7 +259,7 @@ function handleQuizApp() {
     startClick();
     answerResults();
     restartClick();
-    
+    restartQuiz();
 }
 
 $(handleQuizApp);
